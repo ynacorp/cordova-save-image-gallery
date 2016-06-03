@@ -1,69 +1,96 @@
-# Cordova base64ToGallery Plugin
-This plugin (based on [devgeeks/Canvas2ImagePlugin](http://github.com/devgeeks/Canvas2ImagePlugin)) allows you to save base64 data as a png image into the device (iOS Photo Library, Android Gallery or WindowsPhone 8 Photo Album).
+# Cordova saveImageGallery Plugin
+This plugin (based on [devgeeks/Canvas2ImagePlugin](http://github.com/devgeeks/Canvas2ImagePlugin)) allows you to save base64 data as a png/jpg image into the device (iOS Photo Library, Android Gallery or WindowsPhone 8 Photo Album).
 
-The plugin is a kind of fork of the [solderzzc/Base64ImageSaverPlugin](https://github.com/solderzzc/Base64ImageSaverPlugin) but with a cleaner history (a.k.a: no tags from Canvas2ImagePlugin repo) and a newer iOS implementation.
+The plugin is a kind of fork of the [Nexxa/cordova-base64-to-gallery/](http://github.com/Nexxa/cordova-base64-to-gallery) but with a cleaner history and some extra features - like supporting saving into JPG, sending parameters in an easier way, etc.
 
 ## Alerts
 
-### Plugin id - [issue #1](https://github.com/Nexxa/cordova-base64-to-gallery/issues/1)
-In order to be more consistent with the cordova naming convention, since version 2.0 the repository name and the cordova plugin id have changed to **cordova-base64-to-gallery**.
+### WP8 limitations
+In this fork, the Android and iOS implementation were adapted but the WP8 cannot save images in PNG or reducing the quality of the images.
 
-Please uninstall the old version and reinstall the new one.
-
-### cordova-ios > 3.8.0 - [issue #3](https://github.com/Nexxa/cordova-base64-to-gallery/issues/3)
-According to the [documentation](https://github.com/apache/cordova-ios/blob/master/guides/API%20changes%20in%204.0.md#nsdatabase64h-removed), `NSData+Base64.h` class was removed starting from version 4.0.0 of the **cordova-ios platform** (and it was already deprecated from version 3.8.0).
-
-So, cordova-base64-to-gallery plugin **from version 3.0.0** has changed the iOS implementation in order to support the changes in cordova-ios platform.
-
-If you need to support cordova-ios < 3.8.0 please refer to [cordova-base64-to-gallery@2.0.2](https://github.com/Nexxa/cordova-base64-to-gallery/tree/2.0.2). There is also an "**old**" branch that might have some updates in the future (Android/WP8 fixes or something like that).
-
-## Usage
-Call the `cordova.base64ToGallery()` method with image's base64 string, success and error callbacks (`options` is optional):
+## Usage (saveBase64Image)
+Call the `window.imageSaver.saveBase64Image()` method using success and error callbacks and the passing the image's base64 in the options JSON:
 
 ### Methods
-#### `cordova.base64ToGallery(data, [options, success, fail])`
+#### `window.imageSaver.saveBase64Image(options [,success, fail])`
 
 Param       | Type       | Default           | Description
------------ | ---------- | ----------------- | -----------------------------------------
-**data**    | *string*   |                   | base64 string
+----------- | ---------- | ----------------- | ------------------
 **options** | *object*   | \*see below       | options
-**success** | *function* | **console.log**   | success callback (file path as parameter)
-**fail**    | *function* | **console.error** | fail callback (error as parameter)
+**success** | *function* | **console.log**   | success callback
+**fail**    | *function* | **console.error** | fail callback
 
-#### Available options *
+#### Available options
+
+##### `data`
+Base64 input String.
 
 ##### `prefix`
-Saved file name prefix.
+Saved file name prefix. Only works in Android and WP8.
 
 **Default**: "img_"
 
 ##### `mediaScanner`
-On Android runs Media Scanner after file creation.
-
-On iOS if true the file will be added to camera roll, otherwise will be saved to a library folder.
+Android Media Scanner after file creation enabled or not. Only works in Android!
 
 **Default**: true
+
+##### `format`
+Format to save the image. Allowed values 'JPG' and 'PNG'. Only supported for Android and iOS. Currently this option is ignored on Windows implementation.
+
+**Default**: JPG
+
+##### `quality`
+Quality of the saved image. If you want to reduce the quality of the image, you are allow to do it. The value should be a number from 1 to 100. Only supported for Android and iOS. Currently this option is ignored on Windows implementation.
+
+**Default**: 100
 
 ### Example
 
 ```javascript
 function onDeviceReady() {
-    cordova.base64ToGallery(
-        base64Data,
-
-        {
-            prefix: 'img_',
-            mediaScanner: true
+    var params = {data: base64String, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
+    window.imageSaver.saveBase64Image(params,
+        function (filePath) {
+          console.log('File saved on ' + filePath);
         },
-
-        function(path) {
-            console.log(path);
-        },
-
-        function(err) {
-            console.error(err);
+        function (msg) {
+          console.error(msg);
         }
-    );
+      );
+}
+```
+
+## Usage (removeImageFromLibrary)
+Call the `window.imageSaver.removeImageFromLibrary()` method using success and error callbacks and the passing the image URL in the options JSON:
+
+### Methods
+#### `window.imageSaver.removeImageFromLibrary(options [,success, fail])`
+
+Param       | Type       | Default           | Description
+----------- | ---------- | ----------------- | ------------------
+**options** | *object*   | \*see below       | options
+**success** | *function* | **console.log**   | success callback
+**fail**    | *function* | **console.error** | fail callback
+
+#### Available options
+
+##### `data`
+File path input String.
+
+### Example
+
+```javascript
+function onDeviceReady() {
+    var params = {data: "/data/data/test.png"};
+    window.imageSaver.removeImageFromLibrary(params,
+        function (filePath) {
+          console.log('File removed from ' + filePath);
+        },
+        function (msg) {
+          console.error(msg);
+        }
+      );
 }
 ```
 
@@ -71,4 +98,5 @@ function onDeviceReady() {
 - [Tommy-Carlos Williams](http://github.com/devgeeks)
 - [Simba Zhang](http://github.com/solderzzc)
 - [StefanoMagrassi](http://github.com/StefanoMagrassi)
-- [Bastian Meier](https://github.com/bastian-meier)
+- [Alejandro Gomez](http://github.com/agomezmoron)
+- [Bastian Meier](http://github.com/bastian-meier)

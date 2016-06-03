@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.phonegap.com/ns/plugins/1.0" id="cordova-base64-to-gallery" version="4.1.1">
+<plugin xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.phonegap.com/ns/plugins/1.0" id="cordova-save-image-gallery" version="0.0.18">
 
   <engines>
     <engine name="cordova-ios" version=">=3.8.0" />
   </engines>
 
-  <name>base64ToGallery</name>
+  <name>saveImageGallery</name>
 
-  <description>This plugin allows you to save base64 data as a png image into the device (iOS Photo Library, Android Gallery, WindowsPhone 8 Photo Album).</description>
+  <description>This plugin allows you to save base64 data as a png/jpg image into the device (iOS Photo Library, Android Gallery, WindowsPhone 8 Photo Album) compressing also the image if needed.</description>
+  <author>Alejandro Gomez - agommor@gmail.com</author>
   <author>Tommy-Carlos Williams - tommy@devgeeks.org</author>
   <author>Simba Zhang - solderzzc@gmail.com</author>
   <author>StefanoMagrassi - stefano.magrassi@gmail.com</author>
-  <keywords>base64,png,save,canvas,image,photo library</keywords>
+  <keywords>base64,png,jpg,compressionsave,canvas,image,photo library</keywords>
 
   <license>MIT</license>
 
-  <js-module name="object.assign-polyfill" src="www/object.assign-polyfill.js">
-  </js-module>
-
-  <js-module name="base64ToGallery" src="www/base64ToGallery.js">
-    <clobbers target="cordova.base64ToGallery"/>
+  <js-module name="saveImageGallery" src="www/saveImageGallery.js">
+    <clobbers target="cordova.saveImageGallery"/>
   </js-module>
 
   <!-- ios -->
   <platform name="ios">
-    <source-file compiler-flags="-fno-objc-arc" src="src/ios/Base64ToGallery.m"/>
+    <source-file compiler-flags="-fno-objc-arc" src="src/ios/SaveImageGallery.m"/>
 
     <config-file parent="/*" target="config.xml">
-      <feature name="Base64ToGallery">
-        <param name="ios-package" value="Base64ToGallery"/>
+      <feature name="SaveImageGallery">
+        <param name="ios-package" value="SaveImageGallery"/>
         <param name="onload" value="true"/>
       </feature>
     </config-file>
 
-    <header-file src="src/ios/Base64ToGallery.h"/>
+    <header-file src="src/ios/SaveImageGallery.h"/>
   </platform>
 
   <!-- android -->
   <platform name="android">
-    <source-file src="src/android/Base64ToGallery.java" target-dir="src/it/nexxa/Base64ToGallery"/>
+    <source-file src="src/android/SaveImageGallery.java" target-dir="src/com/agomezmoron/SaveImageGallery"/>
 
     <config-file parent="/*" target="AndroidManifest.xml">
       <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+      <uses-permission android:name="android.permission.DELETE_CACHE_FILES"/>
     </config-file>
 
     <config-file parent="/*" target="res/xml/config.xml">
-      <feature name="Base64ToGallery">
-        <param name="android-package" value="it.nexxa.base64ToGallery.Base64ToGallery"/>
+      <feature name="SaveImageGallery">
+        <param name="android-package" value="com.agomezmoron.saveImageGallery.SaveImageGallery"/>
       </feature>
     </config-file>
   </platform>
 
   <!-- wp8 -->
   <platform name="wp8">
-    <source-file src="src/wp8/Base64ToGallery.cs"/>
+    <source-file src="src/wp8/SaveImageGallery.cs"/>
 
     <config-file parent="/*" target="config.xml">
-      <feature name="Base64ToGallery">
-        <param name="wp-package" value="Base64ToGallery"/>
+      <feature name="SaveImageGallery">
+        <param name="wp-package" value="SaveImageGallery"/>
         <param name="onload" value="true"/>
       </feature>
     </config-file>
