@@ -25,8 +25,8 @@ var ImageSaver = function () {
 /**
  * Constants.
  */
-ImageSaver.FORMAT_JPG = "jpg";
-ImageSaver.FORMAT_PNG = "png";
+ImageSaver.FORMAT_JPG = 'jpg';
+ImageSaver.FORMAT_PNG = 'png';
 
 /**
  * Saves base64 data as image.
