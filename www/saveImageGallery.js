@@ -154,7 +154,7 @@ function prepareSaveBase64Args(options) {
   args.push(options.prefix);
 
   // preparing mediaScanner
-  if (options.mediaScanner === undefined) {
+  if (options.mediaScanner === undefined || options.mediaScanner === null) {
     options.mediaScanner = DEFAULTS.mediaScanner;
   }
   args.push(options.mediaScanner);
