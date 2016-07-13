@@ -117,7 +117,7 @@ function prepareRemoveImageArgs(options) {
     options.data = '';
   }
   // preparing base64 string
-  options.data = options.data.replace('file://', '');
+  options.data = options.data.replace('file://', '').replace('file:/', '/');
   args.push(options.data);
 
   return args;
