@@ -52,7 +52,10 @@
             NSString *fileName = [prefix stringByAppendingString : timeString];
             fileName = [fileName stringByAppendingString : imageExtension];
             
-            NSString *libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+            NSString *libPath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+            if (cameraRoll) {
+                libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+            }
             NSString *libPathNoSync = [libPath stringByAppendingPathComponent : @"NoCloud"];
             NSFileManager *fileManager = [NSFileManager defaultManager]; //create instance of NSFileManager
             
