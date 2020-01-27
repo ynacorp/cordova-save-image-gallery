@@ -137,7 +137,10 @@ public class SaveImageGallery extends CordovaPlugin {
 
             if (imageFile == null) {
                 callbackContext.error("Error while saving image");
-                callbackContext.error(bmp, filePrefix, format, quality);
+                callbackContext.error(bmp);
+                callbackContext.error(filePrefix);
+                callbackContext.error(format);
+                callbackContext.error(quality);
             }
 
             // Update image gallery
