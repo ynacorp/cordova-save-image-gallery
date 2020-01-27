@@ -213,7 +213,6 @@ public class SaveImageGallery extends CordovaPlugin {
             retVal = imageFile;
 
         } catch (Exception e) {
-            Log.e("SaveImageToGallery", fileName);
             Log.e("SaveImageToGallery", "An exception occured while saving image: " + e.toString());
         }
 
