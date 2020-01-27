@@ -162,56 +162,66 @@ public class SaveImageGallery extends CordovaPlugin {
 
         try {
             String deviceVersion = Build.VERSION.RELEASE;
+            String deviceSdkVersion = Build.VERSION_SDK_INT;
             Calendar c = Calendar.getInstance();
             String date = EMPTY_STR + c.get(Calendar.YEAR) + c.get(Calendar.MONTH) + c.get(Calendar.DAY_OF_MONTH)
                     + c.get(Calendar.HOUR_OF_DAY) + c.get(Calendar.MINUTE) + c.get(Calendar.SECOND);
 
             int check = deviceVersion.compareTo("2.3.3");
 
-            File folder;
+            if(deviceSdkVersion >= Build.VERSION_CODES.Q) {
+                 Log.e("SaveImageToGallery", "test version Q of android");
+                 Log.e("SaveImageToGallery", "test version Q of android");
+                 Log.e("SaveImageToGallery", "test version Q of android");
+                 Log.e("SaveImageToGallery", "test version Q of android");
+                 Log.e("SaveImageToGallery", "test version Q of android");
+                 Log.e("SaveImageToGallery", "test version Q of android");
+                 Log.e("SaveImageToGallery", "test version Q of android");
+            } else {
+                File folder;
 
-            /*
-             * File path = Environment.getExternalStoragePublicDirectory(
-             * Environment.DIRECTORY_PICTURES ); //this throws error in Android
-             * 2.2
-             */
-            if (check >= 1) {
-                folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                /*
+                 * File path = Environment.getExternalStoragePublicDirectory(
+                 * Environment.DIRECTORY_PICTURES ); //this throws error in Android
+                 * 2.2
+                 */
+                if (check >= 1) {
+                    folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-                if (!folder.exists()) {
-                    folder.mkdirs();
+                    if (!folder.exists()) {
+                        folder.mkdirs();
+                    }
+
+                } else {
+                    folder = Environment.getExternalStorageDirectory();
                 }
 
-            } else {
-                folder = Environment.getExternalStorageDirectory();
+                // building the filename
+                String fileName = prefix + date;
+                Bitmap.CompressFormat compressFormat = null;
+                // switch for String is not valid for java < 1.6, so we avoid it
+                if (format.equalsIgnoreCase(JPG_FORMAT)) {
+                    fileName += ".jpeg";
+                    compressFormat = Bitmap.CompressFormat.JPEG;
+                } else if (format.equalsIgnoreCase(PNG_FORMAT)) {
+                    fileName += ".png";
+                    compressFormat = Bitmap.CompressFormat.PNG;
+                } else {
+                    // default case
+                    fileName += ".jpeg";
+                    compressFormat = Bitmap.CompressFormat.JPEG;
+                }
+
+                // now we create the image in the folder
+                File imageFile = new File(folder, fileName);
+                FileOutputStream out = new FileOutputStream(imageFile);
+                // compress it
+                bmp.compress(compressFormat, quality, out);
+                out.flush();
+                out.close();
+
+                retVal = imageFile;
             }
-
-            // building the filename
-            String fileName = prefix + date;
-            Bitmap.CompressFormat compressFormat = null;
-            // switch for String is not valid for java < 1.6, so we avoid it
-            if (format.equalsIgnoreCase(JPG_FORMAT)) {
-                fileName += ".jpeg";
-                compressFormat = Bitmap.CompressFormat.JPEG;
-            } else if (format.equalsIgnoreCase(PNG_FORMAT)) {
-                fileName += ".png";
-                compressFormat = Bitmap.CompressFormat.PNG;
-            } else {
-                // default case
-                fileName += ".jpeg";
-                compressFormat = Bitmap.CompressFormat.JPEG;
-            }
-
-            // now we create the image in the folder
-            File imageFile = new File(folder, fileName);
-            FileOutputStream out = new FileOutputStream(imageFile);
-            // compress it
-            bmp.compress(compressFormat, quality, out);
-            out.flush();
-            out.close();
-
-            retVal = imageFile;
-
         } catch (Exception e) {
             Log.e("SaveImageToGallery", "An exception occured while saving image: " + e.toString());
         }
