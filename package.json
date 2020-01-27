@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agomezmoron/cordova-save-image-gallery.git"
+    "url": "git+https://github.com/ynacorp/cordova-save-image-gallery.git"
   },
   "bugs": {
-    "url": "https://github.com/agomezmoron/cordova-save-image-gallery/issues"
+    "url": "https://github.com/ynacorp/cordova-save-image-gallery/issues"
   },
   "engines": [
     {
