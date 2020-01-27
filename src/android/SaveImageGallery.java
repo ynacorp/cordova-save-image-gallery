@@ -2,6 +2,7 @@ package com.agomezmoron.saveImageGallery;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Arrays;
 import java.util.List;
@@ -162,22 +163,37 @@ public class SaveImageGallery extends CordovaPlugin {
 
         try {
             String deviceVersion = Build.VERSION.RELEASE;
-            String deviceSdkVersion = Build.VERSION_SDK_INT;
+//            String deviceSdkVersion = Build.VERSION_SDK_INT;
             Calendar c = Calendar.getInstance();
             String date = EMPTY_STR + c.get(Calendar.YEAR) + c.get(Calendar.MONTH) + c.get(Calendar.DAY_OF_MONTH)
                     + c.get(Calendar.HOUR_OF_DAY) + c.get(Calendar.MINUTE) + c.get(Calendar.SECOND);
 
             int check = deviceVersion.compareTo("2.3.3");
 
-            if(deviceSdkVersion >= Build.VERSION_CODES.Q) {
-                 Log.e("SaveImageToGallery", "test version Q of android");
-                 Log.e("SaveImageToGallery", "test version Q of android");
-                 Log.e("SaveImageToGallery", "test version Q of android");
-                 Log.e("SaveImageToGallery", "test version Q of android");
-                 Log.e("SaveImageToGallery", "test version Q of android");
-                 Log.e("SaveImageToGallery", "test version Q of android");
-                 Log.e("SaveImageToGallery", "test version Q of android");
-            } else {
+//            if(deviceSdkVersion >= Build.VERSION_CODES.Q) {
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//                 Log.e("SaveImageToGallery", "test version Q of android");
+//
+//                      ContentResolver resolver = mContext.getContentResolver();
+//                         ContentValues contentValues = new ContentValues();
+//                         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
+//                         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
+//                         contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/" + IMAGES_FOLDER_NAME);
+//                         Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+//
+//                             File imageFile = new File(folder, fileName);
+//                          OutputStream fos = resolver.openOutputStream(imageUri);
+//
+//
+//                       saved = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//                        fos.flush();
+//                        fos.close();
+//            } else {
                 File folder;
 
                 /*
@@ -221,7 +237,7 @@ public class SaveImageGallery extends CordovaPlugin {
                 out.close();
 
                 retVal = imageFile;
-            }
+//            }
         } catch (Exception e) {
             Log.e("SaveImageToGallery", "An exception occured while saving image: " + e.toString());
         }
